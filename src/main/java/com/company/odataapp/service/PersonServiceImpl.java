@@ -21,6 +21,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public Optional<Person> findById(Long id) {
+
         return repository.findById(id);
     }
 
@@ -32,5 +33,12 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public Person save(Person person) {
         return repository.save(person);
+    }
+
+    @Override
+    public void modifyPerson(Person person) {
+        Person modifyingPerson = repository.findById(person.getId()).get();
+        person.setRole(modifyingPerson.getRole());
+        repository.save(person);
     }
 }

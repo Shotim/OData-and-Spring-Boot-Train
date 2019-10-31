@@ -54,6 +54,7 @@ public class PeopleODataJPAServiceFactory extends ODataJPAServiceFactory {
     public static class EntityManagerFilter implements ContainerRequestFilter, ContainerResponseFilter {
 
         public static final String EM_REQUEST_ATTRIBUTE = EntityManagerFilter.class.getName() + "_ENTITY_MANAGER";
+        public static final String HTTP_GET_METHOD = "GET";
         private final EntityManagerFactory entityManagerFactory;
 
         @Context
@@ -67,7 +68,7 @@ public class PeopleODataJPAServiceFactory extends ODataJPAServiceFactory {
         public void filter(ContainerRequestContext containerRequestContext) throws IOException {
             EntityManager entityManager = this.entityManagerFactory.createEntityManager();
             httpServletRequest.setAttribute(EM_REQUEST_ATTRIBUTE, entityManager);
-            if (!"GET".equalsIgnoreCase(containerRequestContext.getMethod())) {
+            if (!HTTP_GET_METHOD.equalsIgnoreCase(containerRequestContext.getMethod())) {
                 entityManager.getTransaction().begin();
             }
         }
@@ -75,7 +76,7 @@ public class PeopleODataJPAServiceFactory extends ODataJPAServiceFactory {
         @Override
         public void filter(ContainerRequestContext containerRequestContext, ContainerResponseContext containerResponseContext) throws IOException {
             EntityManager entityManager = (EntityManager) httpServletRequest.getAttribute(EM_REQUEST_ATTRIBUTE);
-            if (!"GET".equalsIgnoreCase(containerRequestContext.getMethod())) {
+            if (!HTTP_GET_METHOD.equalsIgnoreCase(containerRequestContext.getMethod())) {
                 EntityTransaction entityTransaction = entityManager.getTransaction();
                 if (entityTransaction.isActive() && !entityTransaction.getRollbackOnly()) {
                     entityTransaction.commit();

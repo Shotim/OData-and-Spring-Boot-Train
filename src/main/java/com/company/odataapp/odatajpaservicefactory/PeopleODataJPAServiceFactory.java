@@ -4,8 +4,6 @@ import org.apache.olingo.odata2.api.processor.ODataContext;
 import org.apache.olingo.odata2.jpa.processor.api.ODataJPAContext;
 import org.apache.olingo.odata2.jpa.processor.api.ODataJPAServiceFactory;
 import org.apache.olingo.odata2.jpa.processor.api.exception.ODataJPARuntimeException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityGraph;
@@ -35,8 +33,6 @@ import java.util.Map;
 @Component
 public class PeopleODataJPAServiceFactory extends ODataJPAServiceFactory {
 
-    private static final Logger log = LoggerFactory.getLogger(PeopleODataJPAServiceFactory.class);
-
     public PeopleODataJPAServiceFactory() {
         setDetailErrors(true);
     }
@@ -44,7 +40,6 @@ public class PeopleODataJPAServiceFactory extends ODataJPAServiceFactory {
     @Override
     public ODataJPAContext initializeODataJPAContext() throws ODataJPARuntimeException {
 
-        log.info("[I32] >>> initializeODataJPAContext()");
         ODataJPAContext oDataJPAContext = getODataJPAContext();
         ODataContext oDataContext = oDataJPAContext.getODataContext();
         HttpServletRequest request = (HttpServletRequest) oDataContext.getParameter(ODataContext.HTTP_SERVLET_REQUEST_OBJECT);
@@ -95,21 +90,22 @@ public class PeopleODataJPAServiceFactory extends ODataJPAServiceFactory {
 
         private EntityManager delegate;
 
+        public EntityManagerWrapper(EntityManager delegate) {
+            this.delegate = delegate;
+        }
+
         @Override
         public void persist(Object entity) {
-            log.info("[I68] persist: entity.class" + entity.getClass().getSimpleName());
             delegate.persist(entity);
         }
 
         @Override
         public <T> T merge(T entity) {
-            log.info("[I74] merge: entity.class=" + entity.getClass().getSimpleName());
             return delegate.merge(entity);
         }
 
         @Override
         public void remove(Object entity) {
-            log.info("[I78] remove: entity.class=" + entity.getClass().getSimpleName());
             delegate.remove(entity);
         }
 
@@ -144,13 +140,13 @@ public class PeopleODataJPAServiceFactory extends ODataJPAServiceFactory {
         }
 
         @Override
-        public void setFlushMode(FlushModeType flushModeType) {
-            delegate.setFlushMode(flushModeType);
+        public FlushModeType getFlushMode() {
+            return delegate.getFlushMode();
         }
 
         @Override
-        public FlushModeType getFlushMode() {
-            return delegate.getFlushMode();
+        public void setFlushMode(FlushModeType flushModeType) {
+            delegate.setFlushMode(flushModeType);
         }
 
         @Override
@@ -351,10 +347,6 @@ public class PeopleODataJPAServiceFactory extends ODataJPAServiceFactory {
         @Override
         public <T> List<EntityGraph<? super T>> getEntityGraphs(Class<T> entityClass) {
             return delegate.getEntityGraphs(entityClass);
-        }
-
-        public EntityManagerWrapper(EntityManager delegate) {
-            this.delegate = delegate;
         }
     }
 }

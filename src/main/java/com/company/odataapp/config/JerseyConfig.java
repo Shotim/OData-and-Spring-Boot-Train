@@ -11,11 +11,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Path;
 
-/**
- * Jersey JAX-RS configuration
- *
- * @author Philippe
- */
 @Component
 @ApplicationPath("/odata")
 public class JerseyConfig extends ResourceConfig {
@@ -28,8 +23,6 @@ public class JerseyConfig extends ResourceConfig {
         app
                 .getClasses()
                 .forEach(c -> {
-                    // Avoid using the default RootLocator, as we want
-                    // a Spring Managed one
                     if (!ODataRootLocator.class.isAssignableFrom(c)) {
                         register(c);
                     }

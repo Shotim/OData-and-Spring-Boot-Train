@@ -21,8 +21,7 @@ public class JerseyConfig extends ResourceConfig {
         ODataApplication app = new ODataApplication();
 
         app
-                .getClasses()
-                .forEach(c -> {
+                .getClasses().forEach(c -> {
                     if (!ODataRootLocator.class.isAssignableFrom(c)) {
                         register(c);
                     }

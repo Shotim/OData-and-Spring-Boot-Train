@@ -16,6 +16,10 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <spring.version>2.0.6.RELEASE</spring.version>
+        <sapcloud.version>2.4.64</sapcloud.version>
+        <olingo.version>2.0.11</olingo.version>
+        <spring-cf-hana.version>1.0.4.RELEASE</spring-cf-hana.version>
     </properties>
 
     <dependencies>
@@ -41,6 +45,33 @@
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-cloudfoundry-connector</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sap.hana.cloud</groupId>
+            <artifactId>spring-cloud-cloudfoundry-hana-service-connector</artifactId>
+            <version>${spring-cf-hana.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-spring-service-connector</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sap.cloud.db.jdbc</groupId>
+            <artifactId>ngdbc</artifactId>
+            <version>2.4.64</version>
+            <type>pom</type>
+            <scope>test</scope>
+        </dependency>
+
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -61,7 +92,7 @@
         <dependency>
             <groupId>org.apache.olingo</groupId>
             <artifactId>olingo-odata2-core</artifactId>
-            <version>2.0.11</version>
+            <version>${olingo.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>javax.ws.rs</groupId>
@@ -72,12 +103,12 @@
         <dependency>
             <groupId>org.apache.olingo</groupId>
             <artifactId>olingo-odata2-jpa-processor-core</artifactId>
-            <version>2.0.11</version>
+            <version>${olingo.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.olingo</groupId>
             <artifactId>olingo-odata2-jpa-processor-ref</artifactId>
-            <version>2.0.11</version>
+            <version>${olingo.version}</version>
         </dependency>
 
     </dependencies>

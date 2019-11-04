@@ -16,79 +16,68 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <spring.version>2.0.6.RELEASE</spring.version>
-        <sapcloud.version>2.4.64</sapcloud.version>
         <olingo.version>2.0.11</olingo.version>
-        <spring-cf-hana.version>1.0.4.RELEASE</spring-cf-hana.version>
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jersey</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-rest</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-cloudfoundry-connector</artifactId>
-            <version>${spring.version}</version>
+            <scope>runtime</scope>
         </dependency>
-
         <dependency>
             <groupId>com.sap.hana.cloud</groupId>
             <artifactId>spring-cloud-cloudfoundry-hana-service-connector</artifactId>
-            <version>${spring-cf-hana.version}</version>
+            <version>1.0.4.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-spring-service-connector</artifactId>
-            <version>${spring.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.sap.cloud.db.jdbc</groupId>
             <artifactId>ngdbc</artifactId>
             <version>2.4.64</version>
-            <type>pom</type>
-            <scope>test</scope>
         </dependency>
 
-
+        <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <!-- Tests -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
+        <!-- OData v2 -->
+        <dependency>
+            <groupId>org.apache.olingo</groupId>
+            <artifactId>olingo-odata2-api</artifactId>
+            <version>${olingo.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.olingo</groupId>
             <artifactId>olingo-odata2-core</artifactId>
@@ -96,9 +85,25 @@
             <exclusions>
                 <exclusion>
                     <groupId>javax.ws.rs</groupId>
-                    <artifactId>javax.ws.rs-api</artifactId>
+                    <artifactId>javax.ws.rs:javax.ws.rs-api</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.olingo</groupId>
+            <artifactId>olingo-odata2-jpa-processor-ref</artifactId>
+            <version>${olingo.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.eclipse.persistence</groupId>
+                    <artifactId>eclipselink</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.olingo</groupId>
+            <artifactId>olingo-odata2-jpa-processor-api</artifactId>
+            <version>${olingo.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.olingo</groupId>
@@ -107,11 +112,42 @@
         </dependency>
         <dependency>
             <groupId>org.apache.olingo</groupId>
-            <artifactId>olingo-odata2-jpa-processor-ref</artifactId>
+            <artifactId>olingo-odata2-api-annotation</artifactId>
+            <version>${olingo.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.olingo</groupId>
+            <artifactId>olingo-odata2-annotation-processor-core</artifactId>
             <version>${olingo.version}</version>
         </dependency>
 
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>local</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <activatedProperties>local</activatedProperties>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                    <scope>runtime</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
+            <id>cf</id>
+            <properties>
+                <activatedProperties>cf</activatedProperties>
+            </properties>
+        </profile>
+    </profiles>
 
     <build>
         <plugins>

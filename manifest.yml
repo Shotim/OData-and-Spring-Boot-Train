@@ -7,6 +7,6 @@ applications:
     path: target/odata-app-0.0.1-SNAPSHOT.jar
     buildpack: https://github.com/cloudfoundry/java-buildpack.git#v4.17.1
     env:
-      SPRING_PROFILE_ACTIVE: cloud
+      SPRING_PROFILES_ACTIVE: cloud
     services:
       - hanadb

@@ -1,10 +1,8 @@
 package com.company.odataapp.config;
 
 import com.company.odataapp.odatajpaservicefactory.PeopleODataJPAServiceFactory;
-import lombok.AllArgsConstructor;
 import org.apache.olingo.odata2.api.ODataServiceFactory;
 import org.apache.olingo.odata2.core.rest.ODataRootLocator;
-import org.apache.olingo.odata2.core.rest.app.ODataApplication;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.stereotype.Component;
 
@@ -14,21 +12,10 @@ import javax.ws.rs.Path;
 
 @Component
 @ApplicationPath("/odata")
-@AllArgsConstructor
 public class JerseyConfig extends ResourceConfig {
 
 
     public JerseyConfig(PeopleODataJPAServiceFactory serviceFactory, EntityManagerFactory emf) {
-
-        ODataApplication app = new ODataApplication();
-
-        app
-                .getClasses().forEach(c -> {
-                    if (!ODataRootLocator.class.isAssignableFrom(c)) {
-                        register(c);
-                    }
-                });
-
         register(new PeopleRootLocator(serviceFactory));
         register(new PeopleODataJPAServiceFactory.EntityManagerFilter(emf));
     }

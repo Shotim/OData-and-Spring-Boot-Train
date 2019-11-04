@@ -1,5 +1,6 @@
 package com.company.odataapp.odatajpaservicefactory;
 
+import lombok.AllArgsConstructor;
 import org.apache.olingo.odata2.api.processor.ODataContext;
 import org.apache.olingo.odata2.jpa.processor.api.ODataJPAContext;
 import org.apache.olingo.odata2.jpa.processor.api.ODataJPAServiceFactory;
@@ -51,6 +52,7 @@ public class PeopleODataJPAServiceFactory extends ODataJPAServiceFactory {
         return oDataJPAContext;
     }
 
+    @AllArgsConstructor
     public static class EntityManagerFilter implements ContainerRequestFilter, ContainerResponseFilter {
 
         public static final String EM_REQUEST_ATTRIBUTE = EntityManagerFilter.class.getName() + "_ENTITY_MANAGER";

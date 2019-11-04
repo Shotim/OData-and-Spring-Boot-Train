@@ -1,6 +1,7 @@
 package com.company.odataapp.config;
 
 import com.company.odataapp.odatajpaservicefactory.PeopleODataJPAServiceFactory;
+import lombok.AllArgsConstructor;
 import org.apache.olingo.odata2.api.ODataServiceFactory;
 import org.apache.olingo.odata2.core.rest.ODataRootLocator;
 import org.apache.olingo.odata2.core.rest.app.ODataApplication;
@@ -13,6 +14,7 @@ import javax.ws.rs.Path;
 
 @Component
 @ApplicationPath("/odata")
+@AllArgsConstructor
 public class JerseyConfig extends ResourceConfig {
 
 

@@ -18,9 +18,9 @@ import java.util.Properties;
 public class CloudDatabaseConfig extends AbstractCloudConfig {
 
     @Bean
-    public DataSource dataSource(@Value("${vcap.services.hanadb.credentials.url}") final String url,
-                                 @Value("${vcap.services.hanadb.credentials.user}") final String user,
-                                 @Value("${vcap.services.hanadb.credentials.password}") final String password) {
+    public DataSource dataSource(@Value("${hana.url}") final String url,
+                                 @Value("${hana.user}") final String user,
+                                 @Value("${hana.password}") final String password) {
 
         return DataSourceBuilder.create()
                 .type(HikariDataSource.class)
@@ -36,7 +36,7 @@ public class CloudDatabaseConfig extends AbstractCloudConfig {
         Properties properties = new Properties();
 
         try {
-            properties.load(new ClassPathResource("classpath:application-cf.properties").getInputStream());
+            properties.load(new ClassPathResource("classpath:application-cloud.properties").getInputStream());
         } catch (IOException e) {
             e.printStackTrace();
         }

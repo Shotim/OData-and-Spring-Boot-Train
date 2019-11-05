@@ -8,5 +8,8 @@ applications:
     buildpack: https://github.com/cloudfoundry/java-buildpack.git#v4.17.1
     env:
       SPRING_PROFILES_ACTIVE: cloud
+      hana.url: ${vcap.services.hana.credentials.url}
+      hana.user: ${vcap.services.hana.credentials.user}
+      hana.password: ${vcap.services.hana.credentials.password}
     services:
       - hana

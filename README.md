@@ -40,7 +40,7 @@ The entity `Person` is included in it and we realize CRUD methods to it.
 ```
 cf login
 ```
-* Create hanatrial instance:
+* Create hanatrial service instance:
 ```
 cf create-service hanatrial hdi-shared hana
 ```

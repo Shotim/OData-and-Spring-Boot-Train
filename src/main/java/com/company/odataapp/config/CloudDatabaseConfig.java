@@ -30,17 +30,4 @@ public class CloudDatabaseConfig extends AbstractCloudConfig {
                 .password(password)
                 .build();
     }
-
-    @Override
-    public Properties properties() {
-        Properties properties = new Properties();
-
-        try {
-            properties.load(new ClassPathResource("classpath:application-cloud.properties").getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return properties;
-    }
 }

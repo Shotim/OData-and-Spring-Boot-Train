@@ -1,6 +1,6 @@
 package com.company.odataapp.odatajpaservicefactory;
 
-import lombok.AllArgsConstructor;
+import com.company.odataapp.config.JerseyConfig;
 import org.apache.olingo.odata2.api.processor.ODataContext;
 import org.apache.olingo.odata2.jpa.processor.api.ODataJPAContext;
 import org.apache.olingo.odata2.jpa.processor.api.ODataJPAServiceFactory;
@@ -22,13 +22,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.metamodel.Metamodel;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.container.ContainerRequestFilter;
-import javax.ws.rs.container.ContainerResponseContext;
-import javax.ws.rs.container.ContainerResponseFilter;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.ext.Provider;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -45,50 +38,12 @@ public class PeopleODataJPAServiceFactory extends ODataJPAServiceFactory {
         ODataJPAContext oDataJPAContext = getODataJPAContext();
         ODataContext oDataContext = oDataJPAContext.getODataContext();
         HttpServletRequest request = (HttpServletRequest) oDataContext.getParameter(ODataContext.HTTP_SERVLET_REQUEST_OBJECT);
-        EntityManager entityManager = (EntityManager) request.getAttribute(EntityManagerFilter.EM_REQUEST_ATTRIBUTE);
+        EntityManager entityManager = (EntityManager) request.getAttribute(JerseyConfig.EntityManagerFilter.EM_REQUEST_ATTRIBUTE);
 
         oDataJPAContext.setEntityManager(entityManager);
         oDataJPAContext.setPersistenceUnitName("default");
         oDataJPAContext.setContainerManaged(true);
         return oDataJPAContext;
-    }
-
-    @Provider
-    @AllArgsConstructor
-    public static class EntityManagerFilter implements ContainerRequestFilter, ContainerResponseFilter {
-
-        public static final String EM_REQUEST_ATTRIBUTE = EntityManagerFilter.class.getName() + "_ENTITY_MANAGER";
-        public static final String HTTP_GET_METHOD = "GET";
-        private final EntityManagerFactory entityManagerFactory;
-
-        @Context
-        private HttpServletRequest httpServletRequest;
-
-        public EntityManagerFilter(EntityManagerFactory entityManagerFactory) {
-            this.entityManagerFactory = entityManagerFactory;
-        }
-
-        @Override
-        public void filter(ContainerRequestContext containerRequestContext) throws IOException {
-            EntityManager entityManager = this.entityManagerFactory.createEntityManager();
-            httpServletRequest.setAttribute(EM_REQUEST_ATTRIBUTE, entityManager);
-            if (!HTTP_GET_METHOD.equalsIgnoreCase(containerRequestContext.getMethod())) {
-                entityManager.getTransaction().begin();
-            }
-        }
-
-        @Override
-        public void filter(ContainerRequestContext containerRequestContext, ContainerResponseContext containerResponseContext) throws IOException {
-            EntityManager entityManager = (EntityManager) httpServletRequest.getAttribute(EM_REQUEST_ATTRIBUTE);
-            if (!HTTP_GET_METHOD.equalsIgnoreCase(containerRequestContext.getMethod())) {
-                EntityTransaction entityTransaction = entityManager.getTransaction();
-                if (entityTransaction.isActive() && !entityTransaction.getRollbackOnly()) {
-                    entityTransaction.commit();
-                }
-            }
-
-            entityManager.close();
-        }
     }
 
     static class EntityManagerWrapper implements EntityManager {

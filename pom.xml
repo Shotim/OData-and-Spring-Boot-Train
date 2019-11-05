@@ -17,6 +17,8 @@
     <properties>
         <java.version>1.8</java.version>
         <olingo.version>2.0.11</olingo.version>
+        <sap-hana-cloud.version>1.0.4.RELEASE</sap-hana-cloud.version>
+        <sap-hana-jdbc.version>2.4.64</sap-hana-jdbc.version>
     </properties>
 
     <dependencies>
@@ -47,7 +49,7 @@
         <dependency>
             <groupId>com.sap.hana.cloud</groupId>
             <artifactId>spring-cloud-cloudfoundry-hana-service-connector</artifactId>
-            <version>1.0.4.RELEASE</version>
+            <version>${sap-hana-cloud.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -56,7 +58,7 @@
         <dependency>
             <groupId>com.sap.cloud.db.jdbc</groupId>
             <artifactId>ngdbc</artifactId>
-            <version>2.4.64</version>
+            <version>${sap-hana-jdbc.version}</version>
         </dependency>
 
         <!-- Lombok -->

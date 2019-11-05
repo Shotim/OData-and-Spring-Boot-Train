@@ -19,15 +19,33 @@ The entity `Person` is included in it and we realize CRUD methods to it.
 ### Locally
 * Clone git repository:
 ```https://github.com/Shotim/OData-and-Spring-Boot-Train```
+
 * Build project:
->If you have installed Maven:
-```mvn clean install```
+```./mvnw.cmd clean install```
 
->If Maven is not installed:
-```./mvnw clean install```
+>If the project will be built result in th command line will be the following:
+```
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+```
+
 * Start Spring Boot application:
->If you have installed Maven:
-```mvn spring-boot:run```
 
->If Maven is not installed:
-```./mvnw spring-boot:run```
+```./mvnw.cmd spring-boot:run```
+
+### On the CF
+* Do all steps from local deployment
+* Log on to SAP CF:
+```
+cf login
+```
+* Create hanatrial instance:
+```
+cf create-service hanatrial hdi-shared hana
+```
+* Change fields `host` and `path` in manifest.yml
+* Push project to CF:
+```
+cf push
+```

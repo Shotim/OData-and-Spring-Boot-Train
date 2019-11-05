@@ -9,4 +9,4 @@ applications:
     env:
       SPRING_PROFILES_ACTIVE: cloud
     services:
-      - hanadb
+      - hana

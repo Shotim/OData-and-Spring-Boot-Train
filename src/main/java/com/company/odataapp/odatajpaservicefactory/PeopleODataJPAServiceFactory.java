@@ -27,6 +27,7 @@ import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.ext.Provider;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +53,7 @@ public class PeopleODataJPAServiceFactory extends ODataJPAServiceFactory {
         return oDataJPAContext;
     }
 
+    @Provider
     @AllArgsConstructor
     public static class EntityManagerFilter implements ContainerRequestFilter, ContainerResponseFilter {
 

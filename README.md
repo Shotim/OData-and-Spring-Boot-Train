@@ -23,7 +23,7 @@ The entity `Person` is included in it and we realize CRUD methods to it.
 * Build project:
 ```./mvnw.cmd clean install```
 
->If the project will be built result in th command line will be the following:
+>If the project will be built result in the command line will be the following:
 ```
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
